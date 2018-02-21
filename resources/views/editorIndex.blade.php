@@ -8,8 +8,31 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="http://tanvirpro.com/styles.69d46984369a61068e4d.bundle.css">
-
+    <style>
+        #web-loading {
+            display: block;
+            position: fixed;
+            border: 1px solid rgba(59,64,65,0.87);
+            top: 0;
+            left: 0;
+            z-index: 2000;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(47, 46, 54, 0.41);
+        }
+        #web-loading div {
+            padding: 15px;
+            display: block;
+            position: absolute;
+            width: 250px;
+            height: 180px;
+            border: 1px solid rgb(24, 21, 65);
+            border-radius: 5px;
+            top: 38%;
+            left: 42%;
+            background-color: rgba(255, 255, 255, 0.92);
+        }
+    </style>
     <title>Editor</title>
 </head>
 <body>
@@ -122,7 +145,7 @@
     </div>
 
 </div>
-<div id="web-loading">
+<div id="web-loading" class="text-center">
     <div>
         <img src="http://tanvirpro.com/assets/img/gif/ring-alt.svg" alt="">
         <h2 class="h2">LOADING</h2>
@@ -142,8 +165,17 @@
 <script>
     $(window).on('load', function () {
         $('#web-loading').fadeOut('slow');
-        $("textarea").ckeditor();
+        if (window.innerWidth > 500) {
+            $("textarea").ckeditor();
+        }
     });
+
+    $(document).ajaxStart(function () {
+        $('#web-loading').show();
+    }).ajaxStop(function () {
+        $('#web-loading').hide();
+    });
+
     $('.alert-success').hide();
     var formUrl = '{{ route('editor.update', ':id') }}';
     $('#v-pills-tab a').on('click', function (e) {
@@ -155,7 +187,9 @@
             url: url,
             success: function (data) {
                 $('#mydiv').html(data);
-                $("textarea").ckeditor();
+                if (window.innerWidth > 500) {
+                    $("textarea").ckeditor();
+                }
             },
             error: function () {
                 alert('err');
