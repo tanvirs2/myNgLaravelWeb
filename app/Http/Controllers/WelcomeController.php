@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\VisitorMsg;
 use App\Welcome;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,8 @@ class WelcomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        VisitorMsg::create($data);
     }
 
     /**
