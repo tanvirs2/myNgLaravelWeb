@@ -18,7 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('editor', 'EditorController');
 
 Route::resource('/welcome', 'WelcomeController');
 Route::get('/home', 'HomeController@index')->name('home');

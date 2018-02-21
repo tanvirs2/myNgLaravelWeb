@@ -8,6 +8,15 @@ use App\Home;
 class EditorController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -71,7 +80,7 @@ class EditorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except(['_method']);
+        $data = $request->except(['_method', '_token']);
         Home::where('id', $id)->update($data);
     }
 

@@ -18,5 +18,7 @@ Route::get('/wel', function () {
 });
 
 Auth::routes();
+Route::resource('editor', 'EditorController');
+
 
 Route::get('/home', 'HomeController@index')->name('home');

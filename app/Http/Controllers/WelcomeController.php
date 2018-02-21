@@ -70,7 +70,7 @@ class WelcomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except(['_method']);
+        $data = $request->except(['_method', '_token']);
         Welcome::where('id', $id)->update($data);
     }
 

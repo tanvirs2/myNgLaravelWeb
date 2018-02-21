@@ -37,29 +37,44 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Features</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                </ul>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
+
 
 <div class="row">
     <div class="col-12">
@@ -123,6 +138,7 @@
         <div class="col-9">
             <div class="tab-content" id="v-pills-tabContent">
                 <form id="my-form" >
+                    {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     <div class="" id="mydiv">
                         <h4>1st</h4>
@@ -163,6 +179,8 @@
 <script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.8.0/adapters/jquery.js"></script>
 <script>
+    $('.alert-success').hide();
+
     $(window).on('load', function () {
         $('#web-loading').fadeOut('slow');
         if (window.innerWidth > 500) {
@@ -176,7 +194,6 @@
         $('#web-loading').hide();
     });
 
-    $('.alert-success').hide();
     var formUrl = '{{ route('editor.update', ':id') }}';
     $('#v-pills-tab a').on('click', function (e) {
         e.preventDefault();
@@ -211,6 +228,9 @@
             success: function (data) {
                 console.log(data);
                 $('.alert-success').show().fadeOut(5000);
+            },
+            error: function () {
+                alert('save_err');
             }
         });
     });
